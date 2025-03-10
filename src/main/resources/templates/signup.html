@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="Base::layout(~{::section})">
+<head>
+<meta charset="UTF-8" />
+</head>
+<body>
+
+	<section>
+
+		<div class="container">
+
+			<div class="row">
+
+				<div class="col-md-8 offset-md-2 ">
+
+					<div class="my-card mt-2 ">
+						<div class="text-center" id="message-container"></div>
+						<div class="container text-center">
+							<img style="width: 60px;" alt=""
+								th:src="@{/image/enrollment.png}" src="">
+						</div>
+
+						<h1 class="text-center">Register Here !!</h1>
+
+						<form id="registerForm" th:action="@{/do-register}" method="post"
+							th:object="${user}">
+							<!-- name input field -->
+							<div class="mb-3">
+								<label for="name_field" class="form-label">Your good
+									name : </label> <input type="text" class="form-control" id="name_field"
+									name="name" aria-describedby="emailHelp"
+									placeholder="Enter here" required th:value="${user.name}" />
+
+							</div>
+							<!-- email input field -->
+							<div class="mb-3">
+								<label for="email_field" class="form-label">Your email :
+								</label> <input type="email" class="form-control" id="email_field"
+									name="email" aria-describedby="emailHelp"
+									placeholder="Enter here" required th:value="${user.email}" />
+								<div id="emailHelp" class="form-text">We'll never share
+									your email with anyone else.</div>
+							</div>
+							<!-- password input field -->
+							<div class="mb-3">
+								<label for="password_field" class="form-label">Your
+									password: </label>
+
+								<div class="input-group">
+									<input type="password" class="form-control" id="password_field"
+										name="password" placeholder="Enter here" required
+										th:value="${user.password}" /> <span class="input-group-text">
+										<i class="fa fa-eye" id="toggle_password"
+										style="cursor: pointer;"></i>
+									</span>
+								</div>
+							</div>
+							<!-- script for hide & show pass -->
+							<script>
+								    const passwordField = document.getElementById("password_field");
+								    const togglePassword = document.getElementById("toggle_password");
+								
+								    togglePassword.addEventListener("mousedown", () => {
+								        passwordField.type = "text";
+								        togglePassword.classList.remove("fa-eye");
+								        togglePassword.classList.add("fa-eye-slash");
+								    });
+								
+								    togglePassword.addEventListener("mouseup", () => {
+								        passwordField.type = "password";
+								        togglePassword.classList.remove("fa-eye-slash");
+								        togglePassword.classList.add("fa-eye");
+								    });
+								
+								    togglePassword.addEventListener("mouseleave", () => {
+								        passwordField.type = "password";
+								        togglePassword.classList.remove("fa-eye-slash");
+								        togglePassword.classList.add("fa-eye");
+								    });
+								</script>
+							<!-- about input field -->
+
+							<div class="mb-3">
+								<label for="about_field" class="form-label">Your about
+									yourself : </label>
+								<textarea th:value="${user.about}" name="about"
+									placeholder="Enter here" rows="3" class="form-control"></textarea>
+
+							</div>
+							<!-- terms & condition field -->
+							<div
+								class="form-group d-flex justify-content-center align-items-center mb-2">
+								<input type="checkbox" name="agreement" id="agreement"
+									class="form-check-input me-2" /> <label for="agreement"
+									class="form-check-label">Accept Terms & Conditions</label>
+							</div>
+
+
+							<div class="container text-center ">
+
+								<button type="submit" class="btn btn-outline-info"
+									style="color: black;">Submit</button>
+								<button type="reset" class="btn btn-outline-warning"
+									style="color: black;">Reset</button>
+
+							</div>
+
+						</form>
+
+					</div>
+
+
+				</div>
+
+			</div>
+
+		</div>
+		 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("#registerForm").submit(function (event) {
+          event.preventDefault(); // Prevent the default form submission
+          var formData = $(this).serialize(); // Serialize form data
+
+          $.ajax({
+            type: "POST",
+            url: "/do-register",
+            data: formData,
+            success: function (response) {
+              // Display success message in message-container
+              $("#message-container").html('<div class="alert alert-success">' + response.message + '</div>');
+              // Redirect to signup page after a brief delay
+              setTimeout(function () {
+                window.location.href = "/signin";
+              }, 2000);
+            },
+            error: function (xhr) {
+              // If there's an error, show the error message above the form
+              var errorMessage = xhr.responseJSON?.error || "Something went wrong!";
+              $("#message-container").html('<div class="alert alert-danger">' + errorMessage + '</div>');
+            }
+          });
+        });
+      });
+    </script>
+	</section>
+
+</body>
+</html>

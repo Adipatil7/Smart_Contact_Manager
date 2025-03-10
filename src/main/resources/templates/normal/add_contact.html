@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	th:replace="normal/Base::layout(~{::section})">
+<head>
+<meta charset="UTF-8" />
+<title>Document</title>
+</head>
+<body>
+
+	<section>
+		<div class="card me-3 ms-3">
+
+			<div class="card-body">
+				<h1 class="text-center">Add Contact</h1>
+
+				<div class="container-fluid mt-1">
+
+					<div class="row">
+
+						<div class="col-md-10 offset-md-1">
+
+							<form action="#" th:object="${contact}"
+								enctype="multipart/form-data" method="POST"
+								th:action="@{/user/process-contact}" class="mt-2">
+								
+								<input type="hidden" name="cid" th:field="*{cid}" />
+
+								
+								
+								<!-- First Name field -->
+
+								<div class="input-group">
+									<span class="input-group-text"> <i class="fa fa-plus"></i>
+									</span> <input th:value="${contact!=null ? contact.name :''}" required type="text" id="firstName" name="name"
+										placeholder="Enter name here" class="form-control" />
+								</div>
+
+								<!-- Second Name field -->
+								<div class="input-group mt-3">
+									<span class="input-group-text"> <i
+										class="fas fa-user-alt"></i>
+									</span> <input th:value="${contact!=null ? contact.nickName : ''}" required type="text" id="nickName" name="nickName"
+										placeholder="Enter nick Name here" class="form-control" />
+								</div>
+
+								<!-- Phone field -->
+								<div class="input-group mt-3">
+									<span class="input-group-text"> <i class="fa fa-phone"></i>
+									</span> <input th:value="${contact!=null ? contact.phone : ''}" required min="10" type="tel" id="phone" name="phone"
+										placeholder="Enter phone Number here" class="form-control" />
+								</div>
+
+								<!-- Email field -->
+								<div class="input-group mt-3">
+									<span class="input-group-text"> <i
+										class="fa-solid fa-at"></i>
+									</span> <input th:value="${contact!=null ? contact.email : ''}" required type="email" id="email" name="email"
+										placeholder="Enter Email here" class="form-control" />
+								</div>
+
+								<!-- Work field -->
+								<div class="input-group mt-3">
+									<span class="input-group-text"> <i
+										class="fa-solid fa-briefcase"></i>
+									</span> <input th:value="${contact!=null ? contact.work : ''}" required type="text" id="work" name="work"
+										placeholder="Enter profession here" class="form-control" />
+								</div>
+
+								<!-- Contact Description -->
+								<div class="form-group mt-3">
+
+									<textarea th:text="${contact!=null ? contact.description : ''}" name="description" id="textarea" rows="5"
+										class="form-control" placeholder="Enter Contact description"></textarea>
+
+								</div>
+
+								<!-- Image field -->
+
+								<div class="custom-file">
+
+									<input type="file" name="profileImage" />
+
+								</div>
+
+								<div class="container text-center">
+
+									<button class="btn btn-outline-primary">Save Contact</button>
+
+								</div>
+
+							</form>
+
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+
+
+		</div>
+
+		<script
+			src="https://cdn.tiny.cloud/1/r7rrtjzp7shgvkm97jpjq9rs0qxbxmwxfhoeryvgo7l6vn6d/tinymce/7/tinymce.min.js"
+			referrerpolicy="origin"></script>
+
+		<script>
+  tinymce.init({
+    selector: 'textarea',
+    plugins: [
+      // Core editing features
+      'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'image', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
+      // Your account includes a free trial of TinyMCE premium features
+      // Try the most popular premium features until Mar 11, 2025:
+      'checklist', 'mediaembed', 'casechange', 'export', 'formatpainter', 'pageembed', 'a11ychecker', 'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'editimage', 'advtemplate', 'ai', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown','importword', 'exportword', 'exportpdf'
+    ],
+    toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+    tinycomments_mode: 'embedded',
+    tinycomments_author: 'Author name',
+    mergetags_list: [
+      { value: 'First.Name', title: 'First Name' },
+      { value: 'Email', title: 'Email' },
+    ],
+    ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
+  });
+</script>
+
+	<script>
+		
+			$(document).ready(()=>{
+				
+				$('.item').removeClass('active');
+				$('#add-link').addClass('active');
+			
+			});
+		
+		</script>
+
+	</section>
+
+</body>
+</html>
